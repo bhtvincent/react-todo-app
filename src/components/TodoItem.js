@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { MdDelete, MdEdit } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import toast from 'react-hot-toast';
+import { motion } from 'framer-motion';
 import styles from '../styles/modules/todoItem.module.scss';
 import { getClasses } from '../utils/getClasses';
 import { deleteTodo, updateTodo } from '../slices/todoSlice';
@@ -13,6 +14,14 @@ function TodoItem({ todo }) {
   const dispatch = useDispatch();
   const [updateModalOpen, setUpdateModaleOpen] = useState(false);
   const [checked, setChecked] = useState(false);
+
+  const child = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
 
   useEffect(() => {
     if (todo.status === 'complete') {
@@ -41,7 +50,7 @@ function TodoItem({ todo }) {
 
   return (
     <>
-      <div className={styles.item}>
+      <motion.div className={styles.item} variants={child}>
         <div className={styles.todoDetails}>
           <CheckButton
             checked={checked}
@@ -84,7 +93,7 @@ function TodoItem({ todo }) {
             <MdEdit />
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <TodoModal
         modalOpen={updateModalOpen}
